@@ -12,7 +12,8 @@ class RNNModel(nn.Module):
         super(RNNModel, self).__init__()
         # Training中にランダムに入力を一定のdropout rateで0にする。
         # http://pytorch.org/docs/master/nn.html#torch.nn.Dropout
-        self.drop = nn.Dropput(dropout)
+        # Difference between the layer and function.
+        self.drop = nn.Dropout(dropout)
         self.encoder = nn.Embedding(n_token, n_input)
         if rnn_type in ['LSTM', 'GRU']:
             self.rnn = getattr(nn, rnn_type)(
