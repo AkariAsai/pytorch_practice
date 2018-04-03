@@ -70,6 +70,8 @@ val_data = batchify(corpus.valid, eval_batch_size)
 test_data = batchify(corpus.test, eval_batch_size)
 
 n_tokens = len(corpus.dictionary)
+print(args.n_hidden)
+print(args.dropout)
 model = model.RNNModel(args.model, n_tokens, args.emsize,
                        args.n_hidden, args.dropout, args.tied)
 if args.cuda():
