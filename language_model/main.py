@@ -59,7 +59,7 @@ def batchify(data, batch_size):
     n_batch = data.size(0) // batch_size
     data = data.narrow(0, 0, n_batch * batch_size)
     data = data.view(batch_size, -1).t().contiguous()
-    if args.cude:
+    if args.cuda:
         data = data.cuda()
     return data
 
