@@ -29,7 +29,7 @@ class RNNModel(nn.Module):
                               nonlinearity=nonlinearity, dropout=dropout)
         self.decoder = nn.Linear(n_hidden, n_token)
         if tie_weights:
-            if nhid != ninp:
+            if n_hidden != n_input:
                 raise ValueError(
                     'When using the tied flag, nhid must be equal to emsize')
             self.decoder.weight = self.encoder.weight
