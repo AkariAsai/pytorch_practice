@@ -77,7 +77,7 @@ model = model.RNNModel(args.model, n_tokens, args.emsize,
 if args.cuda:
     model.cuda()
 
-criterion = nn.CrossEntropyLOss()
+criterion = nn.CrossEntropyLoss()
 
 
 # なんでrepackageが必要なのか
