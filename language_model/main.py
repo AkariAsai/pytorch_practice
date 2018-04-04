@@ -92,9 +92,11 @@ def repackage_hidden(h):
 
 # PyTorchのバッチ処理がよくわからない
 def get_batch(source, i, evaluation=False):
+    print(source)
     seq_len = min(args.bptt, len(source) - 1 - i)
     data = Variable(source[i:i + seq_len], volatile=evaluation)
     target = Variable(source[i + 1:i + 1 + seq_len].view(-1))
+    print(target)
     return data, target
 
 
@@ -130,10 +132,7 @@ def train():
         hidden = repackage_hidden(hidden)
         model.zero_grad()
         output, hidden = model(data, hidden)
-        print(output)
         loss = criterion(output.view(-1, n_tokens), targets)
-        print(loss)
-        exit()
         loss.backward()
         # Clipping the gradients to avoid gradients explosion.
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
