@@ -142,7 +142,6 @@ def train():
             p.data.add_(-lr * p.grad.data)
 
         total_loss += loss.data
-        exit()
 
         if batch % args.log_interval == 0 and batch > 0:
             cur_loss = total_loss[0] / args.log_interval
