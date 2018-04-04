@@ -137,9 +137,7 @@ def train():
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
         for p in model.parameters():
             # Update the gradient by SGD
-            print(p.grad.data)
             p.data.add_(-lr * p.grad.data)
-            print(p.data)
 
         total_loss += loss.data
 
