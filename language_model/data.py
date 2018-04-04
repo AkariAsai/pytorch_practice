@@ -1,5 +1,5 @@
-import torch
 import os
+import torch
 
 
 class Dictionary(object):
@@ -11,7 +11,6 @@ class Dictionary(object):
         if word not in self.word2idx:
             self.idx2word.append(word)
             self.word2idx[word] = len(self.idx2word) - 1
-
         return self.word2idx[word]
 
     def __len__(self):
@@ -26,19 +25,22 @@ class Corpus(object):
         self.test = self.tokenize(os.path.join(path, 'test.txt'))
 
     def tokenize(self, path):
+        """Tokenizes a text file."""
+        assert os.path.exists(path)
+        # Add words to the dictionary
         with open(path, 'r') as f:
             tokens = 0
             for line in f:
-                # TODO: Swap with NLTK tokenizer.
                 words = line.split() + ['<eos>']
                 tokens += len(words)
                 for word in words:
                     self.dictionary.add_word(word)
 
+        # Tokenize file content
         with open(path, 'r') as f:
             ids = torch.LongTensor(tokens)
             token = 0
-            for lien in f:
+            for line in f:
                 words = line.split() + ['<eos>']
                 for word in words:
                     ids[token] = self.dictionary.word2idx[word]

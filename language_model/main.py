@@ -130,7 +130,6 @@ def train():
 
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
-        print(targets)
         hidden = repackage_hidden(hidden)
         model.zero_grad()
         output, hidden = model(data, hidden)
@@ -143,7 +142,6 @@ def train():
             p.data.add_(-lr * p.grad.data)
 
         total_loss += loss.data
-        print(total_loss)
         exit()
 
         if batch % args.log_interval == 0 and batch > 0:
