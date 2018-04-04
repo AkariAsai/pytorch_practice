@@ -55,10 +55,13 @@ if torch.cuda.is_available():
 corpus = data.Corpus(args.data)
 
 
-def batchify(data, batch_size):
-    n_batch = data.size(0) // batch_size
-    data = data.narrow(0, 0, n_batch * batch_size)
-    data = data.view(batch_size, -1).t().contiguous()
+def batchify(data, bsz):
+    # Work out how cleanly we can divide the dataset into bsz parts.
+    nbatch = data.size(0) // bsz
+    # Trim off any extra elements that wouldn't cleanly fit (remainders).
+    data = data.narrow(0, 0, nbatch * bsz)
+    # Evenly divide the data across the bsz batches.
+    data = data.view(bsz, -1).t().contiguous()
     if args.cuda:
         data = data.cuda()
     return data
@@ -92,11 +95,9 @@ def repackage_hidden(h):
 
 # PyTorchのバッチ処理がよくわからない
 def get_batch(source, i, evaluation=False):
-    print(source)
     seq_len = min(args.bptt, len(source) - 1 - i)
     data = Variable(source[i:i + seq_len], volatile=evaluation)
     target = Variable(source[i + 1:i + 1 + seq_len].view(-1))
-    print(target)
     return data, target
 
 
@@ -129,6 +130,7 @@ def train():
 
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
+        print(targets)
         hidden = repackage_hidden(hidden)
         model.zero_grad()
         output, hidden = model(data, hidden)
@@ -141,6 +143,8 @@ def train():
             p.data.add_(-lr * p.grad.data)
 
         total_loss += loss.data
+        print(total_loss)
+        exit()
 
         if batch % args.log_interval == 0 and batch > 0:
             cur_loss = total_loss[0] / args.log_interval
