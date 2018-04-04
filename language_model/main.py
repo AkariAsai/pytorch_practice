@@ -130,8 +130,11 @@ def train():
         hidden = repackage_hidden(hidden)
         model.zero_grad()
         output, hidden = model(data, hidden)
+        print(output)
+        print(targets)
         loss = criterion(output.view(-1, n_tokens), targets)
         print(loss)
+        exit()
         loss.backward()
         # Clipping the gradients to avoid gradients explosion.
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
