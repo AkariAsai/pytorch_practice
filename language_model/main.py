@@ -74,7 +74,7 @@ print(args.n_hidden)
 print(args.dropout)
 model = model.RNNModel(args.model, n_tokens, args.emsize,
                        args.n_hidden, args.n_layers, args.dropout, args.tied)
-if args.cuda():
+if args.cuda:
     model.cuda()
 
 criterion = nn.CrossEntropyLOss()
