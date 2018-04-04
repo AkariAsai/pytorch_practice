@@ -29,6 +29,7 @@ class RNNModel(nn.Module):
             self.rnn = nn.RNN(n_input, n_hidden, n_layers,
                               nonlinearity=nonlinearity, dropout=dropout)
         self.decoder = nn.Linear(n_hidden, n_token)
+        # Why tieing weight should be useful?
         if tie_weight:
             if n_hidden != n_input:
                 raise ValueError(

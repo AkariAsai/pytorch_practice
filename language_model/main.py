@@ -74,6 +74,7 @@ print(args.n_hidden)
 print(args.dropout)
 model = model.RNNModel(args.model, n_tokens, args.emsize,
                        args.n_hidden, args.n_layers, args.dropout, args.tied)
+print(model)
 if args.cuda:
     model.cuda()
 
@@ -121,6 +122,7 @@ def train():
     total_loss = 0
     start_time = time.time()
     n_tokens = len(corpus.dictionary)
+    print("n_tokens:" + str(n_tokens))
     hidden = model.init_hidden(args.batch_size)
 
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
@@ -129,12 +131,15 @@ def train():
         model.zero_grad()
         output, hidden = model(data, hidden)
         loss = criterion(output.view(-1, n_tokens), targets)
+        print(loss)
         loss.backward()
         # Clipping the gradients to avoid gradients explosion.
         torch.nn.utils.clip_grad_norm(model.parameters(), args.clip)
         for p in model.parameters():
             # Update the gradient by SGD
+            print(p.grad.data)
             p.data.add_(-lr * p.grad.data)
+            print(p.data)
 
         total_loss += loss.data
 
