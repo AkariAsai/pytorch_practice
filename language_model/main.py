@@ -131,7 +131,6 @@ def train():
         model.zero_grad()
         output, hidden = model(data, hidden)
         print(output)
-        print(targets)
         loss = criterion(output.view(-1, n_tokens), targets)
         print(loss)
         exit()
