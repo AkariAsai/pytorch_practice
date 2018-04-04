@@ -153,7 +153,7 @@ lr = args.lr
 best_val_loss = None
 
 try:
-    for epoch in range(args.epoch + 1):
+    for epoch in range(args.epochs + 1):
         epoch_start_time = time.time()
         # Call training method
         train()
