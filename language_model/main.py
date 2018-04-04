@@ -117,7 +117,7 @@ def evaluate(data_source):
 
 def train():
     # Sets the module in training mode.
-    mode.train()
+    model.train()
     total_loss = 0
     start_time = time.time()
     n_tokens = len(corpus.dictionary)
